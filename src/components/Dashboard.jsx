@@ -115,7 +115,7 @@ const Dashboard = () => {
       }, []);
       const exportPDF = () => {
         const doc = new jsPDF();
-        doc.text(`Booking Details - ${selectedDate}`, 14, 15);
+        doc.text(`Meal Details - ${selectedDate}`, 14, 15);
 
         const tableColumn = ["Name", "Surname", "No. of Persons", "Meal Choice"];
         const tableRows = data.map((item) => [item.name, item.surname, item.noOfPersons, item.mealChoice]);
