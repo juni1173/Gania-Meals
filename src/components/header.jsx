@@ -1,6 +1,6 @@
 import React from 'react';
 import { Box, Typography, Button } from '@mui/material';
-import logoSrc from '../assets/images/logo.png';
+import logoSrc from 'https://chaniacruises.gr/wp-content/uploads/2023/04/cc-site-logo.png';
 import Logout from './Logout';
 function Header() {
   return (
@@ -21,7 +21,7 @@ function Header() {
 
       {/* Middle Column: Heading */}
       <Box sx={{ flex: 2, textAlign: 'center', color: '#fff' }}>
-        <Typography variant="h6">Booking Management</Typography>
+        <Typography variant="h6">Booking Meals</Typography>
       </Box>
 
       {/* Right Column: Button */}
