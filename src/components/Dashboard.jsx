@@ -14,7 +14,7 @@ import dayjs from 'dayjs';
 import WarningIcon from '@mui/icons-material/Warning';
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
-// import Header from './header';
+import Header from './header';
 
 const Dashboard = () => {
     const [selectedDate, setSelectedDate] = useState(dayjs(new Date()).format('YYYY-MM-DD'));
@@ -132,7 +132,7 @@ const Dashboard = () => {
   return (
     <ThemeProvider theme={darkTheme}>
     <Container>
-        {/* <Header/> */}
+        <Header/>
         <Box>
             <Card>
                 <LocalizationProvider dateAdapter={AdapterDayjs}>

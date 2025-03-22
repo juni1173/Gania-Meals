@@ -1,6 +1,6 @@
 import React from 'react';
 import { Box, Typography, Button } from '@mui/material';
-import logoSrc from 'https://chaniacruises.gr/wp-content/uploads/2023/04/cc-site-logo.png';
+import logoSrc from '../assets/images/logo.png';
 import Logout from './Logout';
 function Header() {
   return (
