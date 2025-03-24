@@ -53,7 +53,6 @@ const Dashboard = () => {
                     Authorization: `Basic ${btoa("khawajakhalil3@gmail.com:oyAc x9e2 GyYL ZWJ3 nozc p7TS")}`,
                 },
             });
-            
             const ordersData = response.data;
             // const extractedData = ordersData.map((order) => {
             //     try {
@@ -168,7 +167,7 @@ const Dashboard = () => {
                                         {order.name} {order.surname}
                                     </TableCell>
                                     <TableCell align="left">{order.noOfPersons}</TableCell>
-                                    <TableCell align="left">{order.mealChoice}</TableCell>
+                                    <TableCell align="left">{order.mealChoice.join(", ")}</TableCell>
                                     <TableCell align="left">{order.bookingDate}</TableCell>
                                 </TableRow>
                             ))}
