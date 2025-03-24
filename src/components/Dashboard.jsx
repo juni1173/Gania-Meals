@@ -18,7 +18,7 @@ import Header from './header';
 
 const Dashboard = () => {
     const [selectedDate, setSelectedDate] = useState(dayjs(new Date()).format('YYYY-MM-DD'));
-    const [allData, setAllData] = useState([]);
+    // const [allData, setAllData] = useState([]);
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(false);
     const darkTheme = createTheme({
@@ -38,69 +38,70 @@ const Dashboard = () => {
           },
         },
       });
-    const dateUpdateFunction = date => {
-        setSelectedDate(date);
-        const filterredDateData = allData.filter(pre => pre.bookingDate === date);
-            setData(filterredDateData);
-    }
+    // const dateUpdateFunction = date => {
+    //     setSelectedDate(date);
+    //     // const filterredDateData = allData.filter(pre => pre.bookingDate === date);
+    //     //     setData(filterredDateData);
+    // }
     
     const fetchOrders = async () => {
+        console.warn(selectedDate);
         setLoading(true);
         try {
-            const response = await axios.get(`https://chaniacruises.gr/wp-json/wc/v3/orders?per_page=100`, {
-                auth: {
-                    username: "ck_ff4b454a411d5cf84926de02ade843f5cefd049a",
-                    password: "cs_44fd345ef5ccc504d651fe0ba0a6afca63119655",
+            const response = await axios.get(`https://chaniacruises.gr/wp-json/custom-api/v1/orders-by-date?date=${selectedDate}`, {
+                headers: {
+                    Authorization: `Basic ${btoa("khawajakhalil3@gmail.com:oyAc x9e2 GyYL ZWJ3 nozc p7TS")}`,
                 },
             });
+            
             const ordersData = response.data;
-            const extractedData = ordersData.map((order) => {
-                try {
-                    // Ensure order and line_items exist
-                    if (!order?.line_items?.length) {
-                        throw new Error("Missing line items");
-                    }
+            // const extractedData = ordersData.map((order) => {
+            //     try {
+            //         // Ensure order and line_items exist
+            //         if (!order?.line_items?.length) {
+            //             throw new Error("Missing line items");
+            //         }
             
-                    const lineItem = order.line_items[0]; // First item
+            //         const lineItem = order.line_items[0]; // First item
             
-                    // Safely find metadata
-                    const metaBookingDate = lineItem.meta_data?.find(
-                        (meta) => meta.key === "_tmpost_data"
-                    )?.value || [];
+            //         // Safely find metadata
+            //         const metaBookingDate = lineItem.meta_data?.find(
+            //             (meta) => meta.key === "_tmpost_data"
+            //         )?.value || [];
             
-                    const metaData = lineItem.meta_data?.find(
-                        (meta) => meta.key === "_tmcartepo_data"
-                    )?.value || [];
+            //         const metaData = lineItem.meta_data?.find(
+            //             (meta) => meta.key === "_tmcartepo_data"
+            //         )?.value || [];
             
-                    // Helper function to safely extract meta values
-                    const getMetaValue = (key) => {
-                        return metaData.find((item) => item.name === key)?.value || "N/A";
-                    };
+            //         // Helper function to safely extract meta values
+            //         const getMetaValue = (key) => {
+            //             return metaData.find((item) => item.name === key)?.value || "N/A";
+            //         };
             
-                    return {
-                        name: getMetaValue("Name") || order.billing?.first_name || "N/A",
-                        surname: getMetaValue("Surname") || order.billing?.last_name || "N/A",
-                        noOfPersons: getMetaValue("Number of Persons"),
-                        mealChoice: getMetaValue("Meal choice"),
-                        bookingDate: metaBookingDate.length
-                            ? `${metaBookingDate[0]?.wc_bookings_field_start_date_year || "0000"}-${metaBookingDate[0]?.wc_bookings_field_start_date_month || "00"}-${metaBookingDate[0]?.wc_bookings_field_start_date_day || "00"}`
-                            : "N/A"
-                    };
-                } catch (error) {
-                    console.error("Error processing order:", error.message);
-                    return {
-                        name: "N/A",
-                        surname: "N/A",
-                        noOfPersons: "N/A",
-                        mealChoice: "N/A",
-                        bookingDate: "N/A"
-                    };
-                }
-            });            
-              console.warn(extractedData);
-              setAllData(extractedData);
-              const filterredDateData = extractedData.filter(pre => pre.bookingDate === selectedDate);
-            setData(filterredDateData);
+            //         return {
+            //             name: getMetaValue("Name") || order.billing?.first_name || "N/A",
+            //             surname: getMetaValue("Surname") || order.billing?.last_name || "N/A",
+            //             noOfPersons: getMetaValue("Number of Persons"),
+            //             mealChoice: getMetaValue("Meal choice"),
+            //             bookingDate: metaBookingDate.length
+            //                 ? `${metaBookingDate[0]?.wc_bookings_field_start_date_year || "0000"}-${metaBookingDate[0]?.wc_bookings_field_start_date_month || "00"}-${metaBookingDate[0]?.wc_bookings_field_start_date_day || "00"}`
+            //                 : "N/A"
+            //         };
+            //     } catch (error) {
+            //         console.error("Error processing order:", error.message);
+            //         return {
+            //             name: "N/A",
+            //             surname: "N/A",
+            //             noOfPersons: "N/A",
+            //             mealChoice: "N/A",
+            //             bookingDate: "N/A"
+            //         };
+            //     }
+            // });            
+            //   console.warn(ordersData);
+            //   setAllData(ordersData);
+            //   const filterredDateData = extractedData.filter(pre => pre.bookingDate === selectedDate);
+            setData(ordersData);
         } catch (error) {
             
             console.error("Error fetching order:", error);
@@ -113,10 +114,10 @@ const Dashboard = () => {
     useEffect(() => {
         fetchOrders();
         //fetchOrders(dayjs(new Date()).format('YYYY-MM-DD'));
-      }, []);
+      }, [selectedDate]);
       const exportPDF = () => {
         const doc = new jsPDF();
-        doc.text(`Meal Details - ${selectedDate}`, 14, 15);
+        doc.text(`Booking Details - ${selectedDate}`, 14, 15);
 
         const tableColumn = ["Name", "Surname", "No. of Persons", "Meal Choice"];
         const tableRows = data.map((item) => [item.name, item.surname, item.noOfPersons, item.mealChoice]);
@@ -132,14 +133,13 @@ const Dashboard = () => {
   return (
     <ThemeProvider theme={darkTheme}>
     <Container>
-        <Header/>
         <Box>
             <Card>
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                     <StaticDatePicker
                         displayStaticWrapperAs="desktop"
                         value={selectedDate}
-                        onChange={(newDate) => dateUpdateFunction(dayjs(newDate).format('YYYY-MM-DD'))}
+                        onChange={(newDate) => setSelectedDate(dayjs(newDate).format('YYYY-MM-DD'))}
                     />
                 </LocalizationProvider>
             </Card>
@@ -147,7 +147,7 @@ const Dashboard = () => {
 
         {loading ? (
             <Box display="flex" justifyContent="center" alignItems="center" minHeight="200px">
-                <CircularProgress />
+                <div style={{textAlign: "center"}}><CircularProgress /></div>
             </Box>
         ) : data.length > 0 ? (
             <>

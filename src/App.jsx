@@ -7,9 +7,6 @@ import Register from './components/Register';
 import Login from './components/Login';
 import Logout from './components/Logout';
 import Dashboard from './components/Dashboard';
-import Reservation from './components/Reservation/index';
-import Meals from './components/Meals/index';
-import ProductDetail from "./components/ProductDetail";
 
 function App() {
   return (
@@ -21,9 +18,6 @@ function App() {
             <Route path="/register" element={<Register />} />
             <Route path="/logout" element={<Logout />} />
             <Route path="/dashboard" element={<Dashboard />} />
-            <Route path="/reservations" element={<Reservation />} />
-            <Route path="/meals" element={<Meals />} />
-            <Route path="/product/:id" element={<ProductDetail />} />
           </Routes>
         </BrowserRouter>
       {/* <Footer /> */}
